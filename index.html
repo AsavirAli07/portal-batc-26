@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Portal Credentials · AIT</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #1f7a5a, #2bb673);
+      margin: 0;
+      padding: 20px 10px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 22px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 12px 30px rgb(0 0 0 / 0.25);
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 6px 0;
+      color: #14332a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: #2f5a4a;
+      margin-bottom: 22px;
+      font-weight: 500;
+      border-left: 4px solid #2bb673;
+      padding-left: 12px;
+      background: #eafaf3;
+      border-radius: 0 8px 8px 0;
+      line-height: 1.4;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+      margin-top: 16px;
+      color: #14332a;
+      font-size: 14px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 15px;
+      border: 1.8px solid #c9e6da;
+      border-radius: 10px;
+      box-sizing: border-box;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: #fafffd;
+    }
+    input[type="text"]:focus {
+      border-color: #2bb673;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(43, 182, 115, 0.18);
+      background: #fff;
+    }
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 22px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      color: #fff;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+    }
+    #searchBtn {
+      background: linear-gradient(90deg, #1fa463, #2bb673);
+      box-shadow: 0 4px 10px rgba(43, 182, 115, 0.4);
+    }
+    #searchBtn:hover {
+      background: linear-gradient(90deg, #178a51, #23995e);
+      transform: scale(1.01);
+    }
+    #showAllBtn {
+      background: #0ea5e9;
+      box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+      margin-top: 12px;
+    }
+    #showAllBtn:hover {
+      background: #0284c7;
+      transform: scale(1.01);
+    }
+    .result {
+      margin-top: 28px;
+      border: 1px solid #d6efe5;
+      border-radius: 14px;
+      padding: 18px 18px 12px;
+      background: #f7fffb;
+      box-shadow: 0 6px 14px rgb(0 0 0 / 0.04);
+      transition: all 0.2s;
+    }
+    .result-header {
+      background: linear-gradient(90deg, #1fa463, #2bb673);
+      padding: 8px 14px;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 24px;
+      display: inline-block;
+      margin-bottom: 14px;
+      font-size: 15px;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 6px rgba(43, 182, 115, 0.35);
+    }
+    .label-set {
+      margin-bottom: 14px;
+      border-bottom: 1px dashed #cfeadf;
+      padding-bottom: 10px;
+    }
+    .label-set:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    .label-set span {
+      display: block;
+      font-weight: 600;
+      color: #55806f;
+      margin-bottom: 4px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .label-set p {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #14332a;
+      word-break: break-word;
+      background: #fff;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #e2f3eb;
+    }
+    .label-set a {
+      color: #0d9488;
+      text-decoration: none;
+      font-weight: 700;
+      word-break: break-all;
+    }
+    .label-set a:hover {
+      text-decoration: underline;
+    }
+    #modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(10, 30, 22, 0.6);
+      backdrop-filter: blur(3px);
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+    #modal.active {
+      display: flex;
+    }
+    #modal-content {
+      background: white;
+      padding: 22px 22px 18px;
+      border-radius: 20px;
+      max-height: 80vh;
+      width: 100%;
+      max-width: 500px;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border: 1px solid #d6efe5;
+    }
+    #modal-content h2 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-weight: 700;
+      color: #14332a;
+      font-size: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #modal-content ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 0;
+      max-height: 50vh;
+      overflow-y: auto;
+      border: 1px solid #e5f3ec;
+      border-radius: 12px;
+    }
+    #modal-content li {
+      padding: 11px 15px;
+      border-bottom: 1px solid #e5f3ec;
+      font-weight: 500;
+      color: #1f3a30;
+      font-size: 14px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    #modal-content li:last-child {
+      border-bottom: none;
+    }
+    #modal-content li strong {
+      font-weight: 700;
+      color: #1fa463;
+      min-width: 130px;
+    }
+    #modal-close {
+      background: #e24343;
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 18px;
+      font-size: 15px;
+      transition: background 0.2s;
+      width: auto;
+      box-shadow: 0 4px 10px rgba(226, 67, 67, 0.3);
+      float: right;
+    }
+    #modal-close:hover {
+      background: #c42e2e;
+    }
+    .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+    .badge {
+      background: #d6f5e7;
+      color: #0f6b45;
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-left: 8px;
+    }
+    .hint {
+      font-size: 12px;
+      color: #6b8f80;
+      margin-top: 6px;
+      font-style: italic;
+    }
+    .link-btn {
+      display: inline-block;
+      margin-top: 4px;
+      background: #e6f9f0;
+      color: #0f6b45;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      border: 1px solid #b9e6d3;
+    }
+    .link-btn:hover {
+      background: #d0f3e3;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🌐 Student Portal Access</h1>
+  <div class="subtitle">
+    Enter your <strong>GR Number</strong> to get your <strong>Portal Password</strong> and <strong>Portal Link</strong>.
+  </div>
+
+  <label for="grInput">GR Number / Username</label>
+  <input type="text" id="grInput" placeholder="e.g., 261-110-1001" autocomplete="off" />
+  <div class="hint">💡 Use your full GR number as the username (e.g., <strong>261-110-1001</strong>)</div>
+
+  <label for="nameFilter">Student Name (optional filter)</label>
+  <input type="text" id="nameFilter" placeholder="Type name to narrow (optional)" autocomplete="off" />
+
+  <button id="searchBtn">🔍 Search Portal Credentials</button>
+  <button id="showAllBtn">📋 Show All Students</button>
+
+  <div id="result" class="result" style="display: none;"></div>
+</div>
+
+<!-- Modal for full list -->
+<div id="modal">
+  <div id="modal-content" class="clearfix">
+    <h2>📘 All Students · Portal Access <span class="badge">261-110 series</span></h2>
+    <ul id="studentsList"></ul>
+    <button id="modal-close">Close</button>
+  </div>
+</div>
+
+<script>
+  // ------------------------------------------------------------
+  // PORTAL DATA — extracted from portal.xlsx
+  // Username = GRNO (full format, e.g. "261-110-1001")
+  // ------------------------------------------------------------
+  const portalData = [
+    { grno: "261-110-1001", name: "RAJA KULLRANG", section: "A", password: "Raja+1001", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1002", name: "MUHAMMAD BILAL", section: "A", password: "bilal+1002", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1003", name: "UMER SALMAN KHAN", section: "A", password: "salman+1003", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1004", name: "MUHAMMAD HASSAN", section: "A", password: "hassan+1004", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1005", name: "SYED GHAZI HASAN", section: "A", password: "ghazi+1005", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1006", name: "SYED MAAZ ABDUR REHMAN", section: "A", password: "maaz+1006", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1007", name: "MUHAMMAD HASEEB", section: "A", password: "haseeb+1007", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1008", name: "SHAFFAN HASSAN KHAN", section: "A", password: "hassan+1008", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1009", name: "SHEHRYAR HUSSAIN ARIF", section: "A", password: "hussain+1009", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1010", name: "SYED MUHAMMAD NAQI", section: "A", password: "muhammad+1010", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1011", name: "DANIYAL REHMAN", section: "A", password: "rehman+1011", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1012", name: "MUHAMMAD SADIQ BALKHI", section: "A", password: "sadiq+1012", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1013", name: "MUHAMMAD MUSTAFA SHAHBAZ", section: "A", password: "mustafa+1013", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1014", name: "SYED HASSAN NEZAMI", section: "A", password: "hassan+1014", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1015", name: "SYED SHIRAZ ALI", section: "A", password: "shiraz+1015", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1016", name: "AHMED ALI", section: "A", password: "ali+1016", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1017", name: "SYED MUHIB AZHAR", section: "A", password: "muhib+1017", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1018", name: "ABDUL REHMAN", section: "A", password: "rehman+1018", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1019", name: "SYEDA MARIUM NAJMI", section: "A", password: "marium+1019", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1020", name: "MUHAMMAD MUSTAFA KHAN", section: "A", password: "mustafa+1020", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1021", name: "MISHKA ALI", section: "A", password: "ali+1021", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1023", name: "LAIBA FATIMA", section: "A", password: "fatima+1023", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1024", name: "ABDUL MOIZ", section: "A", password: "moiz+1024", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1026", name: "MUSAB AHMED KHAN", section: "A", password: "ahmed+1026", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1027", name: "ARHAM SALMAN", section: "A", password: "salman+1027", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1028", name: "SHAHZAIN MAILK", section: "A", password: "mailk+1028", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1029", name: "HAFIZ MAHASIN KALEEM BARI", section: "A", password: "mahasin+1029", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1030", name: "MUHAMMAD YAWER KHAN", section: "A", password: "yawer+1030", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1031", name: "MUHAMMAD ALI MALLICK", section: "A", password: "ali+1031", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1032", name: "ADAN ALI", section: "A", password: "ali+1032", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1033", name: "MUHAMMAD AYAN", section: "A", password: "ayan+1033", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1034", name: "MUHAMMAD FARMAN", section: "A", password: "farman+1034", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1035", name: "MUHAMMAD TAHA", section: "A", password: "taha+1035", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1036", name: "ALI MAVIA", section: "A", password: "mavia+1036", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1037", name: "MUHAMMAD HAMZA", section: "A", password: "hamza+1037", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1038", name: "ZAREEN", section: "A", password: "zareen+1038", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1039", name: "MUHAMMAD HASSAN", section: "A", password: "hassan+1039", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1040", name: "LAIBA LATIF", section: "A", password: "latif+1040", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1041", name: "MUHAMMAD ZAMEER AWAN", section: "A", password: "zameer+1041", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1042", name: "MUHAMMAD ANAS", section: "A", password: "anas+1042", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1043", name: "ABDUL AHAD", section: "A", password: "ahad+1043", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1044", name: "NABEEL UDDIN", section: "A", password: "uddin+1044", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1045", name: "HUNAIN RAZA", section: "A", password: "raza+1045", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1046", name: "MUHAMMAD ZAID", section: "A", password: "zaid+1046", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1047", name: "WASE AHMED", section: "A", password: "ahmed+1047", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1048", name: "MUHAMMAD ASHAR", section: "A", password: "ashar+1048", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1049", name: "ABDULLAH REHAN", section: "A", password: "rehan+1049", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1050", name: "MUHAMMAD USMAN", section: "A", password: "usman+1050", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1051", name: "AHTISHAM ULL HAQ UL HAQ", section: "A", password: "ull+1051", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1052", name: "MUHAMMAD HAMMAD", section: "A", password: "hammad+1052", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1053", name: "MUHAMMAD FAWAZ HAFEEZ", section: "A", password: "fawaz+1053", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1054", name: "MUHAMMAD FARIZ", section: "A", password: "fariz+1054", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1077", name: "SYED MUHAMMAD SAAD HASSAN", section: "A", password: "muhammad+1077", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1094", name: "GHASIF", section: "A", password: "ghasif+1094", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-3001", name: "ABDUL WARIS", section: "A", password: "waris+3001", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-3002", name: "JABEEN HASSAN", section: "A", password: "hassan+3002", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-3003", name: "MUHAMMAD FARIS", section: "A", password: "faris+3003", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-3004", name: "MARYAM ZAHID", section: "A", password: "zahid+3004", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-3005", name: "MUHAMMAD ABDULLAH KHAN", section: "A", password: "abdullah+3005", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-3006", name: "MUAHAMMAD SUHAN", section: "A", password: "suhan+3006", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-3007", name: "MUHAMMAD SAAD", section: "A", password: "saad+3007", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1025", name: "MUHAMMAD MEKAEEL", section: "B", password: "mekael@Ait29", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1055", name: "ALI HAIDER", section: "B", password: "Ali+1055", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1056", name: "RASHID MERAJ", section: "B", password: "Rashid+1056", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1057", name: "HASSAN ARIB", section: "B", password: "Hassan+1057", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1058", name: "TANVEER UL HASAN", section: "B", password: "Tanveer+1058", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1059", name: "MUHAMMAD HASNAIN KHAN", section: "B", password: "Hasnian+1059", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1060", name: "MUSKAN ZAKIR", section: "B", password: "Muskan+1060", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1061", name: "FATIMA ZAKIR", section: "B", password: "Fatima+1061", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1062", name: "MUHAMMAD HARIS", section: "B", password: "Haris+1062", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1063", name: "WALIHA FATIMA", section: "B", password: "Waliha+1063", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1064", name: "MUHAMMAD MURTAZA KAMRAN", section: "B", password: "Murtaza+1064", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1065", name: "OMAIMA REHMAN", section: "B", password: "omaima+1065", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1066", name: "ABDUL WAHID", section: "B", password: "Wahid+1066", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1067", name: "TAHA AHMED SADDIQUI", section: "B", password: "Taha+1067", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1068", name: "ZAINAB AZFAR", section: "B", password: "?Zainab+1068", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1069", name: "MUHAMMAD AMMAR FAYYAZ", section: "B", password: "Ammar+1069", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1070", name: "MOOSA ALI", section: "B", password: "Moosa+1070", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1071", name: "HASEEB AHMED", section: "B", password: "Haseeb+1071", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1072", name: "HABIB AHMED", section: "B", password: "Habib+1072", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1073", name: "ZAID HASAN", section: "B", password: "Zaid+1073", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1074", name: "UMM E AMNA", section: "B", password: "Amna+1074", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1076", name: "SAYAM AHMED", section: "B", password: "Sayam+1076", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1078", name: "SYED ABDUL MUIEZ ALI", section: "B", password: "S.abdul+1068", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1079", name: "NABEEL AHMED AHMED", section: "B", password: "Nabeel+1079", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1080", name: "HAIDER ABBAS", section: "B", password: "Haider+1080", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1081", name: "MUHAMMAD HASHIR", section: "B", password: "Hashir+1081", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1082", name: "TAYYABA WASEEM", section: "B", password: "Tayyaba+1082", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1083", name: "SYED HASSAN ABBAS RIZVI", section: "B", password: "Hassan.A+1083", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1084", name: "SYEDA RIDA BATOOL NAQVI", section: "B", password: "S.Rida+1084", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1085", name: "SYED AUSAJA MEHDI", section: "B", password: "Ausaja+1085", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1086", name: "ARHAM NADEEM", section: "B", password: "Arham+1086", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1087", name: "ZAID TAJ", section: "B", password: "Zaidtaj+1087", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1088", name: "RAYAN", section: "B", password: "Rayan+1088", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1089", name: "HAREEM AZAM", section: "B", password: "Hareem+1089", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1090", name: "MUHAMMAD ISMAIL", section: "B", password: "Ismail+1090", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1091", name: "ROSHAN ZAMEER", section: "B", password: "Roshan+1091", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1092", name: "KASHAN ALI", section: "B", password: "Kashan+1092", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1093", name: "ALISHBA FATIMA", section: "B", password: "Alishba+1093", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1095", name: "MUHAMMAD ZAIN", section: "B", password: "M.Zain+1095", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1096", name: "ABDULLAH", section: "B", password: "Abdullah+1096", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1097", name: "MUHAMMAD IZHAN RANA", section: "B", password: "Izhan+1097", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1098", name: "ABDUL QADEER", section: "B", password: "A.qadeer+1098", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1099", name: "IYQAAN ABBAS KAZMI", section: "B", password: "Iyqaan+1099", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1100", name: "MUHAMMAD AHMED KHAN", section: "B", password: "M.Ahmed+1100", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1101", name: "MUHAMMAD MAAZ", section: "B", password: "M.Maaz+1101", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1102", name: "ARMAN HUSSAIN", section: "B", password: "Arham.H+1102", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1103", name: "MUHAMMAD SUFIYAN", section: "B", password: "Sufiyan+1103", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1104", name: "SHAIKH SHAYANN NOOR", section: "B", password: "Shayan+1104", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1105", name: "ZOYAN AHMED KHAN", section: "B", password: "Zoyan+1105", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1106", name: "MUHAMMAD AHSAN", section: "B", password: "Ahsan+1106", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1107", name: "MUHAMMAD ABBAS", section: "B", password: "Abbas+1107", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1108", name: "ABDUL HADI", section: "B", password: "A.Hadi+1108", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1109", name: "AYYAN GUL", section: "B", password: "AyyanGul+1109", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1110", name: "MUHAMAMD HAMMAD SIDDIQUI", section: "B", password: "Hammad+1110", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1111", name: "MUHAMMAD MUSTAFA KHAN", section: "B", password: "Mustafa+1111", link: "https://tinyurl.com/aitstudent" }
+  ];
+
+  // Build map: GRNO (uppercase) → student
+  const portalMap = new Map();
+  portalData.forEach(s => portalMap.set(s.grno.toUpperCase(), s));
+
+  // DOM
+  const grInput = document.getElementById("grInput");
+  const nameFilter = document.getElementById("nameFilter");
+  const searchBtn = document.getElementById("searchBtn");
+  const showAllBtn = document.getElementById("showAllBtn");
+  const resultDiv = document.getElementById("result");
+  const modal = document.getElementById("modal");
+  const studentsListUl = document.getElementById("studentsList");
+  const modalCloseBtn = document.getElementById("modal-close");
+
+  // -------- Search --------
+  function performSearch() {
+    let raw = grInput.value.trim().toUpperCase();
+    const filterName = nameFilter.value.trim().toUpperCase();
+
+    if (!raw) {
+      alert("Please enter your GR number (e.g., 261-110-1001)");
+      return;
+    }
+
+    // Try exact match first
+    let found = portalMap.get(raw);
+
+    // If not found, try flexible match
+    if (!found) {
+      const digits = raw.replace(/[^0-9]/g, ""); // "2611101001"
+      const suffix = digits.slice(-4); // "1001"
+
+      for (const [key, student] of portalMap.entries()) {
+        const keyDigits = key.replace(/[^0-9]/g, "");
+        // Match by last 4 digits + optional middle segment
+        if (keyDigits.endsWith(suffix)) {
+          // If user provided more than just the suffix, also check middle
+          if (digits.length >= 7) {
+            const userMiddle = digits.slice(-7, -4); // e.g. "110"
+            const keyMiddle = keyDigits.slice(-7, -4);
+            if (userMiddle === keyMiddle) {
+              found = student;
+              break;
+            }
+          } else {
+            found = student;
+            break;
+          }
+        }
+      }
+    }
+
+    if (!found) {
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML = `<p style="color:#c62828; font-weight:600; background:#ffebee; padding:12px; border-radius:10px;">🔍 No student found with GR <strong>${raw}</strong>. Please check your GR number (format: 261-110-XXXX).</p>`;
+      return;
+    }
+
+    // Apply optional name filter
+    if (filterName && !found.name.toUpperCase().includes(filterName)) {
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML = `<p style="color:#c62828; font-weight:600; background:#ffebee; padding:12px; border-radius:10px;">😕 GR ${found.grno} found, but the name does not match "${nameFilter.value.trim()}".</p>`;
+      return;
+    }
+
+    displayStudentInfo(found);
+  }
+
+  searchBtn.addEventListener("click", performSearch);
+  grInput.addEventListener("keypress", e => { if (e.key === "Enter") performSearch(); });
+  nameFilter.addEventListener("keypress", e => { if (e.key === "Enter") performSearch(); });
+
+  // -------- Display --------
+  function displayStudentInfo(student) {
+    resultDiv.style.display = "block";
+    resultDiv.innerHTML = `
+      <div class="result-header">GR No: ${student.grno} · Section ${student.section}</div>
+      <div class="label-set"><span>👤 Username</span><p>${student.grno}</p></div>
+      <div class="label-set"><span>🧑 Student Name</span><p>${student.name}</p></div>
+      <div class="label-set"><span>🔑 Portal Password</span><p style="font-family: monospace; letter-spacing:0.5px;">${student.password}</p></div>
+      <div class="label-set"><span>🔗 Portal Link</span>
+        <p>
+          <a href="${student.link}" target="_blank" rel="noopener">${student.link}</a><br>
+          <a class="link-btn" href="${student.link}" target="_blank" rel="noopener">↗ Open Portal</a>
+        </p>
+      </div>
+    `;
+  }
+
+  // -------- Show All --------
+  showAllBtn.addEventListener("click", () => {
+    const sorted = [...portalData].sort((a, b) => {
+      if (a.section !== b.section) return a.section.localeCompare(b.section);
+      const aNum = parseInt(a.grno.replace(/\D/g, ""), 10) || 0;
+      const bNum = parseInt(b.grno.replace(/\D/g, ""), 10) || 0;
+      return aNum - bNum;
+    });
+
+    studentsListUl.innerHTML = "";
+    sorted.forEach(student => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <strong>${student.grno}</strong>
+        <span style="flex:1;">${student.name}</span>
+        <span style="color:#1fa463; font-weight:700; font-size:12px; background:#e6f9f0; padding:2px 8px; border-radius:20px;">Sec ${student.section}</span>
+      `;
+      studentsListUl.appendChild(li);
+    });
+    modal.classList.add("active");
+  });
+
+  modalCloseBtn.addEventListener("click", () => modal.classList.remove("active"));
+  modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("active"); });
+</script>
+</body>
+</html>
