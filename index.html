@@ -286,7 +286,7 @@
 
   <label for="grInput">GR Number / Username</label>
   <input type="text" id="grInput" placeholder="e.g., 261-110-1001" autocomplete="off" />
-  <div class="hint">💡 Use your full GR number as the username (e.g., <strong>261-110-1001</strong>)</div>
+  <div class="hint">💡 Use your full GR number as the username (e.g., <strong>261-110-1001</strong>) or just the last 4 digits.</div>
 
   <label for="nameFilter">Student Name (optional filter)</label>
   <input type="text" id="nameFilter" placeholder="Type name to narrow (optional)" autocomplete="off" />
@@ -308,10 +308,11 @@
 
 <script>
   // ------------------------------------------------------------
-  // PORTAL DATA — extracted from portal.xlsx
+  // PORTAL DATA — extracted from portal.xlsx (complete)
   // Username = GRNO (full format, e.g. "261-110-1001")
   // ------------------------------------------------------------
   const portalData = [
+    // ---------- SECTION A ----------
     { grno: "261-110-1001", name: "RAJA KULLRANG", section: "A", password: "Raja+1001", link: "https://tinyurl.com/aitstudent" },
     { grno: "261-110-1002", name: "MUHAMMAD BILAL", section: "A", password: "bilal+1002", link: "https://tinyurl.com/aitstudent" },
     { grno: "261-110-1003", name: "UMER SALMAN KHAN", section: "A", password: "salman+1003", link: "https://tinyurl.com/aitstudent" },
@@ -373,6 +374,8 @@
     { grno: "261-110-3005", name: "MUHAMMAD ABDULLAH KHAN", section: "A", password: "abdullah+3005", link: "https://tinyurl.com/aitstudent" },
     { grno: "261-110-3006", name: "MUAHAMMAD SUHAN", section: "A", password: "suhan+3006", link: "https://tinyurl.com/aitstudent" },
     { grno: "261-110-3007", name: "MUHAMMAD SAAD", section: "A", password: "saad+3007", link: "https://tinyurl.com/aitstudent" },
+
+    // ---------- SECTION B ----------
     { grno: "261-110-1025", name: "MUHAMMAD MEKAEEL", section: "B", password: "mekael@Ait29", link: "https://tinyurl.com/aitstudent" },
     { grno: "261-110-1055", name: "ALI HAIDER", section: "B", password: "Ali+1055", link: "https://tinyurl.com/aitstudent" },
     { grno: "261-110-1056", name: "RASHID MERAJ", section: "B", password: "Rashid+1056", link: "https://tinyurl.com/aitstudent" },
@@ -427,7 +430,31 @@
     { grno: "261-110-1108", name: "ABDUL HADI", section: "B", password: "A.Hadi+1108", link: "https://tinyurl.com/aitstudent" },
     { grno: "261-110-1109", name: "AYYAN GUL", section: "B", password: "AyyanGul+1109", link: "https://tinyurl.com/aitstudent" },
     { grno: "261-110-1110", name: "MUHAMAMD HAMMAD SIDDIQUI", section: "B", password: "Hammad+1110", link: "https://tinyurl.com/aitstudent" },
-    { grno: "261-110-1111", name: "MUHAMMAD MUSTAFA KHAN", section: "B", password: "Mustafa+1111", link: "https://tinyurl.com/aitstudent" }
+    { grno: "261-110-1111", name: "MUHAMMAD MUSTAFA KHAN", section: "B", password: "Mustafa+1111", link: "https://tinyurl.com/aitstudent" },
+
+    // ---------- SECTION C ----------
+    { grno: "261-110-1112", name: "MUHAMMAD FARZAN", section: "C", password: "@ FARZAN1112", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1113", name: "MUHAMMAD ZAEEM SIDDIQUI", section: "C", password: "ZAEEM@1113", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1114", name: "MUHAMMAD IQRASH", section: "C", password: "IQRASH@1114", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1115", name: "SYED MURTAZA HAIDER", section: "C", password: "MURTAZA!1115", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1116", name: "SYED MUHAMMAD ABDULLAH", section: "C", password: "ABDULLAH#1116", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1117", name: "SYED MUHAMMAD AHMED NOOR", section: "C", password: "AHMED%1117", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1118", name: "MUHAMMAD HASNAIN", section: "C", password: "HASNAIN$1118", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1119", name: "ABDUL SABOOR", section: "C", password: "SABOOR$1119", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1120", name: "SYED JAZIL HUSSAIN RIZVI", section: "C", password: "JAZIL#1120", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1121", name: "MUHAMMAD MUDASSIR", section: "C", password: "MUDASSIR#1121", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1122", name: "MUSTAFA AHMED", section: "C", password: "MUSTAFA#1122", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1123", name: "SYED ARHAM ALI", section: "C", password: "ARHAM$1123", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1124", name: "ABDUL REHMAN KHAN", section: "C", password: "ABDUL#1124", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1125", name: "OZAM SARWAR", section: "C", password: "OZAM$1125", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1126", name: "MINSHA", section: "C", password: "MINSHA#1126", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1127", name: "RAHIM", section: "C", password: "RAHIM#1127", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1129", name: "AHMED RAZA", section: "C", password: "RAZA#1129", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1130", name: "JABEEN HASSAN", section: "C", password: "JABEEN#1130", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1131", name: "SYED HUZAIFA", section: "C", password: "HUZAIFA#1131", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1132", name: "MARYAM", section: "C", password: "MARYAM#1132", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1133", name: "MUHAMMAD HAMZA", section: "C", password: "HAMZA#1133", link: "https://tinyurl.com/aitstudent" },
+    { grno: "261-110-1134", name: "MUHAMMAD IZHAN ASIF", section: "C", password: "IZHAN#1134", link: "https://tinyurl.com/aitstudent" }
   ];
 
   // Build map: GRNO (uppercase) → student
@@ -454,21 +481,18 @@
       return;
     }
 
-    // Try exact match first
     let found = portalMap.get(raw);
 
-    // If not found, try flexible match
+    // Flexible matching
     if (!found) {
-      const digits = raw.replace(/[^0-9]/g, ""); // "2611101001"
-      const suffix = digits.slice(-4); // "1001"
+      const digits = raw.replace(/[^0-9]/g, "");
+      const suffix = digits.slice(-4);
 
       for (const [key, student] of portalMap.entries()) {
         const keyDigits = key.replace(/[^0-9]/g, "");
-        // Match by last 4 digits + optional middle segment
         if (keyDigits.endsWith(suffix)) {
-          // If user provided more than just the suffix, also check middle
           if (digits.length >= 7) {
-            const userMiddle = digits.slice(-7, -4); // e.g. "110"
+            const userMiddle = digits.slice(-7, -4);
             const keyMiddle = keyDigits.slice(-7, -4);
             if (userMiddle === keyMiddle) {
               found = student;
@@ -488,7 +512,6 @@
       return;
     }
 
-    // Apply optional name filter
     if (filterName && !found.name.toUpperCase().includes(filterName)) {
       resultDiv.style.display = "block";
       resultDiv.innerHTML = `<p style="color:#c62828; font-weight:600; background:#ffebee; padding:12px; border-radius:10px;">😕 GR ${found.grno} found, but the name does not match "${nameFilter.value.trim()}".</p>`;
